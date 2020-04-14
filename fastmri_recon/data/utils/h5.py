@@ -2,7 +2,7 @@
 import glob
 
 import h5py
-
+import numpy as np
 
 def _from_file_to_stuff(filename, vals=None, attrs=None):
     stuff = []
@@ -12,9 +12,10 @@ def _from_file_to_stuff(filename, vals=None, attrs=None):
         attrs = []
     with  h5py.File(filename, 'r') as h5_obj:
         for val in vals:
-            stuff.append(h5_obj[val][()])
+            stuff.append(np.array(h5_obj[val][()])+0 ) 
         for attr in attrs:
-            stuff.append(h5_obj.attrs[attr])
+            stuff.append(np.array(h5_obj.attrs[attr])+0)
+        h5_obj.close()
     if len(stuff) == 1:
         stuff = stuff[0]
     return stuff
